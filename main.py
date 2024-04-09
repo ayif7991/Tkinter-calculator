@@ -1,36 +1,83 @@
 from tkinter import *
 
-expression = ""
-
 
 def expression_update(num):
-    global expression
-    expression += str(num)
-    input_text.set(expression)
+    result = e.get()
+    e.delete(0, END)
+    e.insert(0, str(result) + str(num))
 
 
-def clear_field():
-    global expression
-    expression = ""
-    input_text.set("")
+def perform_operation(operation):
+    n1 = e.get()
+    global math
+    math = operation
+    global i
+    i = float(n1)
+    e.delete(0, END)
+
+
+# def add():
+#     n1 = e.get()
+#     global math
+#     math = "addition"
+#     global i
+#     i = int(n1)
+#     e.delete(0, END)
+
+
+# def sub():
+#     n1 = e.get()
+#     global math
+#     math = "substraction"
+#     global i
+#     i = int(n1)
+#     e.delete(0, END)
+#
+#
+# def mul():
+#     n1 = e.get()
+#     global math
+#     math = "multiplication"
+#     global i
+#     i = int(n1)
+#     e.delete(0, END)
+#
+#
+# def div():
+#     n1 = e.get()
+#     global math
+#     math = "division"
+#     global i
+#     i = int(n1)
+#     e.delete(0, END)
 
 
 def equal():
-    global expression
-    result = str(eval(expression))
-    input_text.set(result)
-    expression = ""
+    n2 = e.get()
+    e.delete(0, END)
+    if math == "addition":
+        e.insert(0, i + float(n2))
+    elif math == "substraction":
+        e.insert(0, i - float(n2))
+    elif math == "multiplication":
+        e.insert(0, i * float(n2))
+    elif math == "division":
+        e.insert(0, i / float(n2))
+
+
+def clear_field():
+    e.delete(0, END)
 
 
 if __name__ == "__main__":
     win = Tk()
     win.geometry("312x324")
-    win.resizable(0,0)
+    win.resizable(0, 0)
     win.title("Calculator")
     input_text = StringVar()
 
-    input_box = Entry(win, textvariable=input_text)
-    input_box.grid(columnspan=4, ipadx=70)
+    e = Entry(win, textvariable=input_text)
+    e.grid(columnspan=4, ipadx=70)
 
     button1 = Button(win, text=' 1 ', fg='black', bg='grey',
                      command=lambda: expression_update(1), height=1, width=7)
@@ -72,20 +119,22 @@ if __name__ == "__main__":
                      command=lambda: expression_update(0), height=1, width=7)
     button0.grid(row=5, column=0)
 
+    # operators
+    # addition
     plus = Button(win, text=' + ', fg='black', bg='grey',
-                  command=lambda: expression_update("+"), height=1, width=7)
+                  command=lambda: perform_operation("addition"), height=1, width=7)
     plus.grid(row=2, column=3)
 
     minus = Button(win, text=' - ', fg='black', bg='grey',
-                   command=lambda: expression_update("-"), height=1, width=7)
+                   command=lambda: perform_operation("substraction"), height=1, width=7)
     minus.grid(row=3, column=3)
 
     multiply = Button(win, text=' * ', fg='black', bg='grey',
-                      command=lambda: expression_update("*"), height=1, width=7)
+                      command=lambda: perform_operation("multiplication"), height=1, width=7)
     multiply.grid(row=4, column=3)
 
     divide = Button(win, text=' / ', fg='black', bg='grey',
-                    command=lambda: expression_update("/"), height=1, width=7)
+                    command=lambda: perform_operation("division"), height=1, width=7)
     divide.grid(row=5, column=3)
 
     equal = Button(win, text=' = ', fg='black', bg='grey',
